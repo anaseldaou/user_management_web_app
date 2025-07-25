@@ -1,4 +1,4 @@
-import { Component, inject, Input, signal, WritableSignal } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserInfoModel } from '../models/user-info.model';
 import { SharedModule } from '../../shared/shared/shared.module';

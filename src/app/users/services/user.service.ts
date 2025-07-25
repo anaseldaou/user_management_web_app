@@ -1,9 +1,9 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserListModel } from '../models/user-list.model';
 import { environment } from '../../../environments/environment';
-import { UserInfoModel, UserInfoResponseModel } from '../models/user-info.model';
+import { UserInfoResponseModel } from '../models/user-info.model';
 import { HttpBaseClass } from '../../shared/services/http-base.service';
 
 @Injectable({

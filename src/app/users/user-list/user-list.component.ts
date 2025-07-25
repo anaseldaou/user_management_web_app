@@ -1,8 +1,6 @@
-import { Component, inject, Input, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
 import { UserListModel } from '../models/user-list.model';
 import { UserService } from '../services/user.service';
 import { SharedModule } from '../../shared/shared/shared.module';
