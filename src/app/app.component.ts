@@ -1,12 +1,60 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatMiniFabButton, MatButton } from '@angular/material/button';
+import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
+import { MatIcon } from '@angular/material/icon';
+import { MatNavList } from '@angular/material/list';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { SharedModule } from './shared/shared/shared.module';
+import { LanguageService } from './shared/services/language.service';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet],
+    imports: [
+        RouterOutlet,
+        RouterLink,
+        RouterLinkActive,
+        MatToolbar,
+        MatButton,
+        MatMiniFabButton,
+        MatSidenav,
+        MatSidenavContainer,
+        MatSidenavContent,
+        MatIcon,
+        MatNavList,
+        TranslateModule,
+        MatMenuModule,
+        MatTooltipModule,
+        SharedModule
+    ],
     templateUrl: './app.component.html',
     styleUrl: './app.component.sass'
 })
 export class AppComponent {
   title = 'user_management_web_app';
+  languageService = inject(LanguageService);
+
+  // Observable for current language
+  currentLanguage$: Observable<string> = this.languageService.currentLanguage$;
+  currentLang = this.languageService.currentLanguage;
+
+  constructor() {
+    // Language initialization is handled by LanguageService
+    // Subscribe to language changes to update local property
+    this.currentLanguage$.subscribe(lang => {
+      this.currentLang = lang;
+    });
+  }
+
+  changeLanguage(lang: string): void {
+    this.languageService.setLanguage(lang);
+  }
+
+  toggleLanguage(): void {
+    this.languageService.toggleLanguage();
+  }
 }

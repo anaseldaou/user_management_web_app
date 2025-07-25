@@ -1,0 +1,17 @@
+{
+  "USER_INFO": {
+    "ID": "ID",
+    "EMAIL_ADDRESS": "Email Address",
+    "FULL_NAME": "Full Name",
+    "BACK_TO_LIST": "Back to List"
+  },
+  "USER_LIST": {
+    "NO_USERS_FOUND": "No users found.",
+    "PREVIOUS": "Previous",
+    "NEXT": "Next",
+    "SHOWING": "Showing",
+    "TO": "to",
+    "OF": "of",
+    "USERS": "users"
+  }
+}

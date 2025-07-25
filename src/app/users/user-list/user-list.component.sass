@@ -1,0 +1,134 @@
+@import '../../../assets/abstract/colors'
+@import '../../../assets/abstract/mixins'
+
+.user-list-container
+  padding: 20px
+  margin: 0 auto
+
+@keyframes spin
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)
+
+// Users Grid
+.users-grid
+  @include grid-responsive(280px)
+  margin-bottom: 30px
+
+// User Card
+.user-card
+  @include card-full
+  @include flex-center
+  flex-direction: column
+  padding: 24px
+  text-align: center
+  cursor: pointer
+  border: 1px solid $card-border
+
+.user-avatar
+  margin-bottom: 16px
+  
+  img
+    width: 80px
+    height: 80px
+    border-radius: 50%
+    object-fit: cover
+    border: 3px solid $avatar-border
+
+.user-info
+  width: 100%
+
+.user-name
+  margin: 0 0 8px 0
+  font-size: 1.2rem
+  @include text-heading
+
+.user-email
+  margin: 0 0 8px 0
+  @include text-body
+  font-size: 0.9rem
+  word-break: break-word
+
+.user-id
+  @include text-caption
+  background: $user-id-background
+  color: $user-id-color
+  padding: 4px 8px
+  border-radius: 4px
+  display: inline-block
+
+// No Users Message
+.no-users
+  text-align: center
+  padding: 60px 20px
+  color: $no-data-color
+  font-size: 1.1rem
+
+// Pagination Container
+.pagination-container
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 16px
+  padding-top: 20px
+  border-top: 1px solid $border-light
+
+.pagination
+  display: flex
+  gap: 8px
+  align-items: center
+
+// Material Button Customizations
+.pagination-btn
+  margin: 0 4px
+  min-width: 48px
+  
+  &.page-number
+    min-width: 40px
+    
+  &.prev, &.next
+    padding: 0 16px
+    
+    mat-icon
+      font-size: 18px
+      margin: 0 4px
+    
+  .mat-mdc-button-base
+    min-width: 40px
+    
+  .mat-icon
+    font-size: 18px
+
+.pagination-info
+  color: $pagination-info-color
+  font-size: 0.85rem
+  text-align: center
+
+// Responsive Design
+@include mobile
+  .user-list-container
+    padding: 16px
+  
+  .users-grid
+    @include grid-responsive(250px)
+    gap: 16px
+  
+  .user-card
+    padding: 20px
+  
+  .pagination
+    flex-wrap: wrap
+    justify-content: center
+  
+  .pagination-btn
+    padding: 6px 10px
+    font-size: 0.85rem
+
+@media (max-width: 480px)
+  .users-grid
+    grid-template-columns: 1fr
+  
+  .pagination-btn.prev,
+  .pagination-btn.next
+    padding: 6px 12px
