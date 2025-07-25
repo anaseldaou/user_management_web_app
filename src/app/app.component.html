@@ -1,4 +1,4 @@
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container class="sidenav-container" [dir]="currentDirection()">
   <mat-sidenav #drawer class="sidenav" mode="side" opened>
     <mat-nav-list>
       <button mat-mini-fab routerLink="/users" routerLinkActive="active">
@@ -16,7 +16,7 @@
   <div class="language-switcher">
     <button mat-raised-button extended
             [matMenuTriggerFor]="languageMenu">
-      {{ languageService.currentLanguage }}
+      {{ currentLanguageObject().name }}
       <mat-icon>language</mat-icon>
     </button>
     
@@ -25,9 +25,9 @@
         <button mat-menu-item 
                 (click)="changeLanguage(language.code)" 
                 class="language-menu-item"
-                [ngClass]="{'active': currentLang === language.code}">
+                [ngClass]="{'active': currentLang() === language.code}">
           <span class="menu-item-text">{{ language.name }}</span>
-          @if (currentLang === language.code) {
+          @if (currentLang() === language.code) {
             <mat-icon class="check-icon">check</mat-icon>
           }
         </button>

@@ -1,4 +1,5 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal, WritableSignal, computed, Signal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -7,6 +8,7 @@ export interface Language {
   code: string;
   name: string;
   flag?: string;
+  dir: 'ltr' | 'rtl';
 }
 
 @Injectable({
@@ -15,6 +17,7 @@ export interface Language {
 export class LanguageService {
   private translateService = inject(TranslateService);
   private cookieService = inject(CookieService);
+  private document = inject(DOCUMENT);
 
   private readonly LANGUAGE_COOKIE_KEY = 'preferred-language';
   private readonly COOKIE_EXPIRY_DAYS = 365; // 1 year
@@ -22,12 +25,33 @@ export class LanguageService {
 
   // Available languages
   public readonly availableLanguages: Language[] = [
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'ar', name: 'العربية', flag: '��' }
+    { code: 'en', name: 'English', dir: 'ltr' },
+    { code: 'ar', name: 'العربية', dir: 'rtl' }
   ];
 
+  // Signal-based current language
+  private currentLanguageSignal: WritableSignal<string> = signal(this.DEFAULT_LANGUAGE);
+  public currentLanguage$: Signal<string> = this.currentLanguageSignal.asReadonly();
+  
+  // Computed signal for current language object
+  public currentLanguageObject: Signal<Language> = computed(() => {
+    const currentLang = this.currentLanguageSignal();
+    return this.availableLanguages.find(lang => lang.code === currentLang) || this.availableLanguages[0];
+  });
+
+  // Computed signal for current direction
+  public currentDirection: Signal<'ltr' | 'rtl'> = computed(() => {
+    return this.currentLanguageObject().dir;
+  });
+
+  // Computed signal to check if current language is RTL
+  public isRTL: Signal<boolean> = computed(() => {
+    return this.currentDirection() === 'rtl';
+  });
+
+  // Keep Observable for backward compatibility if needed
   private currentLanguageSubject = new BehaviorSubject<string>(this.DEFAULT_LANGUAGE);
-  public currentLanguage$: Observable<string> = this.currentLanguageSubject.asObservable();
+  public currentLanguageObservable$: Observable<string> = this.currentLanguageSubject.asObservable();
 
   constructor() {
     this.initializeLanguage();
@@ -48,7 +72,7 @@ export class LanguageService {
    * Get the current language
    */
   get currentLanguage(): string {
-    return this.currentLanguageSubject.value;
+    return this.currentLanguageSignal();
   }
 
   /**
@@ -60,8 +84,10 @@ export class LanguageService {
     }
 
     this.translateService.use(languageCode);
-    this.currentLanguageSubject.next(languageCode);
+    this.currentLanguageSignal.set(languageCode);
+    this.currentLanguageSubject.next(languageCode); // Keep for backward compatibility
     this.saveLanguagePreference(languageCode);
+    this.updateDocumentDirection();
   }
 
   /**
@@ -117,7 +143,26 @@ export class LanguageService {
    * Get current language object
    */
   getCurrentLanguageObject(): Language {
-    const currentLang = this.currentLanguage;
-    return this.availableLanguages.find(lang => lang.code === currentLang) || this.availableLanguages[0];
+    return this.currentLanguageObject();
+  }
+
+  /**
+   * Update document direction based on current language
+   */
+  private updateDocumentDirection(): void {
+    const direction = this.currentDirection();
+    const htmlElement = this.document.documentElement;
+    
+    htmlElement.dir = direction;
+    htmlElement.lang = this.currentLanguage;
+    
+    // Add/remove RTL class for additional styling
+    if (direction === 'rtl') {
+      htmlElement.classList.add('rtl');
+      htmlElement.classList.remove('ltr');
+    } else {
+      htmlElement.classList.add('ltr');
+      htmlElement.classList.remove('rtl');
+    }
   }
 }

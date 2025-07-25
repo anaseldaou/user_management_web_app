@@ -74,9 +74,9 @@
 
       <!-- Pagination Info -->
       <div class="pagination-info">
-        <span>Showing {{ (users.page - 1) * users.per_page + 1 }} to 
-          {{ Math.min(users.page * users.per_page, users.total) }} of 
-          {{ users.total }} users
+        <span>{{ 'USER_LIST.SHOWING' | translate }} {{ (users.page - 1) * users.per_page + 1 }} {{ 'USER_LIST.TO' | translate }} 
+          {{ Math.min(users.page * users.per_page, users.total) }} {{ 'USER_LIST.OF' | translate }} 
+          {{ users.total }} {{ 'USER_LIST.USERS' | translate }}
         </span>
       </div>
     </div>

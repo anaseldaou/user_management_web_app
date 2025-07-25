@@ -31,7 +31,7 @@
     box-shadow: 0 2px 4px $shadow-light
 
 .nav-item-text
-    margin-left: 16px
+    margin-inline-start: 16px
 
 .content
     padding: 16px
@@ -64,3 +64,19 @@ mat-nav-list
 .menu-item-text
     flex: 1
     font-size: 14px
+
+// RTL-specific styles
+.sidenav-container.rtl
+  .sidenav
+    order: 2
+
+  .mat-sidenav-content
+    order: 1
+
+// RTL adjustments for language switcher
+.rtl
+  .language-switcher
+    direction: rtl
+
+  .language-text
+    text-align: right

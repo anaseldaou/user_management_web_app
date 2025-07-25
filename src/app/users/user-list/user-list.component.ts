@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatButton } from '@angular/material/button';
@@ -20,16 +20,13 @@ export class UserListComponent implements OnInit {
 
   // Expose Math to template
   Math = Math;
-  userService: UserService;
-  router: Router;
+  userService: UserService = inject(UserService);
+  router: Router = inject(Router);
   translate: TranslateService = inject(TranslateService);
 
   constructor(
     private readonly route: ActivatedRoute
-  ) {
-    this.userService = inject(UserService);
-    this.router = inject(Router);
-  }
+  ) {}
 
   ngOnInit(): void {
   }
@@ -58,7 +55,7 @@ export class UserListComponent implements OnInit {
     return pages;
   }
 
-  goToUserByID(userID: number) {
+  goToUserByID(userID: number): void {
     this.router.navigate(['/users', userID]);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, WritableSignal, computed, Signal } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatMiniFabButton, MatButton } from '@angular/material/button';
@@ -10,7 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from './shared/shared/shared.module';
 import { LanguageService } from './shared/services/language.service';
-import { Observable } from 'rxjs';
+import { Direction } from '@angular/cdk/bidi';
 
 @Component({
     selector: 'app-root',
@@ -38,16 +38,14 @@ export class AppComponent {
   title = 'user_management_web_app';
   languageService = inject(LanguageService);
 
-  // Observable for current language
-  currentLanguage$: Observable<string> = this.languageService.currentLanguage$;
-  currentLang = this.languageService.currentLanguage;
+  // Use signal-based current language
+  currentLang: Signal<string> = this.languageService.currentLanguage$;
+  currentLanguageObject: Signal<any> = this.languageService.currentLanguageObject;
+  currentDirection: Signal<Direction | "auto"> = this.languageService.currentDirection;
+  isRTL: Signal<boolean> = this.languageService.isRTL;
 
   constructor() {
     // Language initialization is handled by LanguageService
-    // Subscribe to language changes to update local property
-    this.currentLanguage$.subscribe(lang => {
-      this.currentLang = lang;
-    });
   }
 
   changeLanguage(lang: string): void {
