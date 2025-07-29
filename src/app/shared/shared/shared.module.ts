@@ -10,7 +10,6 @@ import { MatCard, MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslateModule } from '@ngx-translate/core';
-import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 
 
@@ -28,7 +27,6 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
     MatDividerModule,
     MatButtonModule,
     TranslateModule,
-    LoadingBarHttpClientModule,
     LoadingBarModule,
     CommonModule
   ],

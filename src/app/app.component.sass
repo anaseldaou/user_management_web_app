@@ -15,15 +15,15 @@
     z-index: 1000
     box-shadow: 0 2px 4px $shadow-light
     background-color: var(--mat-sys-on-secondary)
-    
-.spacer
-    flex: 1 1 auto
+    justify-content: space-between
 
 .sidenav-container
     flex: 1
     height: 100%
-    margin-top: 64px
+    margin-top: var(--mat-toolbar-standard-height)
 
+.search-field
+    width: 20%
 .sidenav
     width: 60px
 
@@ -80,3 +80,73 @@ mat-nav-list
 
   .language-text
     text-align: right
+
+// Search results styles
+.search-results
+    position: fixed
+    top: var(--mat-toolbar-standard-height)
+    left: 0
+    right: 0
+    z-index: 999
+    padding: 16px
+    background-color: rgba(0, 0, 0, 0.1)
+    backdrop-filter: blur(4px)
+
+.search-result-card
+    max-width: 400px
+    margin: 0 auto
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15)
+
+    &.not-found
+        border-left: 4px solid var(--mat-sys-error)
+
+.user-info
+    display: flex
+    align-items: center
+    gap: 16px
+    position: relative
+
+.user-avatar
+    img
+        width: 48px
+        height: 48px
+        border-radius: 50%
+        object-fit: cover
+
+.not-found-icon
+    width: 48px
+    height: 48px
+    display: flex
+    align-items: center
+    justify-content: center
+    background-color: var(--mat-sys-error-container)
+    border-radius: 50%
+    
+    mat-icon
+        color: var(--mat-sys-on-error-container)
+        font-size: 24px
+
+.user-details
+    flex: 1
+    
+    h3
+        margin: 0
+        font-size: 1.1em
+        font-weight: 500
+
+.close-button
+    position: absolute
+    top: -8px
+    right: -8px
+
+@media (max-width: 768px)
+    .sidenav-container
+        margin-top: var(--mat-toolbar-mobile-height)
+    .search-field
+        width: max-content
+        
+    .search-results
+        top: var(--mat-toolbar-mobile-height)
+        
+    .search-result-card
+        margin: 0 8px

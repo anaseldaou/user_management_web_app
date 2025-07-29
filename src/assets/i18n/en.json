@@ -1,9 +1,21 @@
 {
+  "SEARCH": {
+    "PLACEHOLDER": "Search user by ID...",
+    "USER_NOT_FOUND": "User not found",
+    "SEARCHING": "Searching...",
+    "USER_FOUND": "User Found",
+    "VIEW_DETAILS": "View Details"
+  },
   "USER_INFO": {
     "ID": "ID",
     "EMAIL_ADDRESS": "Email Address",
     "FULL_NAME": "Full Name",
     "BACK_TO_LIST": "Back to List"
+  },
+  "USER": {
+    "ID": "ID",
+    "EMAIL": "Email",
+    "NAME": "Name"
   },
   "USER_LIST": {
     "NO_USERS_FOUND": "No users found.",

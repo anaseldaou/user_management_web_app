@@ -4,37 +4,92 @@
       <button mat-mini-fab routerLink="/users" routerLinkActive="active">
         <mat-icon>people</mat-icon>
       </button>
-
     </mat-nav-list>
   </mat-sidenav>
   
   <mat-sidenav-content>
     <mat-toolbar class="app-toolbar">
-  <span class="spacer"></span>
-  
-  <!-- Language Switcher -->
-  <div class="language-switcher">
-    <button mat-raised-button extended
-            [matMenuTriggerFor]="languageMenu">
-      {{ currentLanguageObject().name }}
-      <mat-icon>language</mat-icon>
-    </button>
-    
-    <mat-menu #languageMenu="matMenu" class="language-menu" xPosition="before">
-      @for (language of languageService.availableLanguages; track language.code) {
-        <button mat-menu-item 
-                (click)="changeLanguage(language.code)" 
-                class="language-menu-item"
-                [ngClass]="{'active': currentLang() === language.code}">
-          <span class="menu-item-text">{{ language.name }}</span>
-          @if (currentLang() === language.code) {
-            <mat-icon class="check-icon">check</mat-icon>
-          }
+      <!-- Search Field -->
+      <span class="spacer"></span>
+      <mat-form-field subscriptSizing="dynamic" class="search-field" appearance="outline">
+        <mat-label>{{ 'SEARCH.PLACEHOLDER' | translate }}</mat-label>
+        <input matInput [formControl]="searchControl" [placeholder]="'SEARCH.PLACEHOLDER' | translate">
+        @if (isSearching) {
+          <mat-spinner matSuffix diameter="20"></mat-spinner>
+        }
+      </mat-form-field>
+      
+      <!-- Language Switcher -->
+      <div class="language-switcher">
+        <button mat-raised-button extended [matMenuTriggerFor]="languageMenu">
+          {{ currentLanguageObject().name }}
+          <mat-icon>language</mat-icon>
         </button>
-      }
-    </mat-menu>
-  </div>
-  </mat-toolbar>
+        
+        <mat-menu #languageMenu="matMenu" class="language-menu" xPosition="before">
+          @for (language of languageService.availableLanguages; track language.code) {
+            <button mat-menu-item 
+                    (click)="changeLanguage(language.code)" 
+                    class="language-menu-item"
+                    [ngClass]="{'active': currentLang() === language.code}">
+              <span class="menu-item-text">{{ language.name }}</span>
+              @if (currentLang() === language.code) {
+                <mat-icon class="check-icon">check</mat-icon>
+              }
+            </button>
+          }
+        </mat-menu>
+      </div>
+    </mat-toolbar>
+
+    <!-- Search Results -->
+    @if (showSearchResult && searchResult) {
+      <div class="search-results">
+        <mat-card class="search-result-card">
+          <mat-card-content>
+            <div class="user-info">
+              <div class="user-avatar">
+                <img [src]="searchResult.avatar" [alt]="searchResult.first_name + ' ' + searchResult.last_name" />
+              </div>
+              <div class="user-details">
+                <h3>{{ searchResult.first_name }} {{ searchResult.last_name }}</h3>
+              </div>
+              <button mat-icon-button (click)="clearSearchResults()" class="close-button">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="navigateToUserDetails(searchResult.id)">
+              {{ 'SEARCH.VIEW_DETAILS' | translate }}
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    }
+
+    <!-- User Not Found -->
+    @if (userNotFound) {
+      <div class="search-results">
+        <mat-card class="search-result-card not-found">
+          <mat-card-content>
+            <div class="user-info">
+              <div class="not-found-icon">
+                <mat-icon>person_off</mat-icon>
+              </div>
+              <div class="user-details">
+                <h3>{{ 'SEARCH.USER_NOT_FOUND' | translate }}</h3>
+              </div>
+              <button mat-icon-button (click)="clearSearchResults()" class="close-button">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    }
+
+    <ngx-loading-bar></ngx-loading-bar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
