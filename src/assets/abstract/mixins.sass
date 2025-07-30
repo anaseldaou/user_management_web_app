@@ -1,0 +1,105 @@
+@import 'colors'
+
+// Card Mixins
+@mixin card-base
+  background: $card-background
+  border-radius: 12px
+  box-shadow: $card-shadow
+  border: 1px solid $card-border
+  transition: all 0.3s ease
+
+@mixin card-hover
+  &:hover
+    transform: translateY(-4px)
+    box-shadow: $card-shadow-hover
+
+@mixin card-full
+  @include card-base
+  @include card-hover
+
+// Button Mixins
+@mixin button-primary
+  background-color: $primary-color
+  color: $primary-contrast
+  border: none
+  
+  &:hover
+    background-color: $primary-dark
+
+@mixin button-secondary
+  background-color: $secondary-color
+  color: $secondary-contrast
+  border: none
+  
+  &:hover
+    background-color: $secondary-dark
+
+// Text Mixins
+@mixin text-heading
+  color: $text-primary
+  font-weight: 600
+
+@mixin text-body
+  color: $text-secondary
+  font-weight: 400
+
+@mixin text-caption
+  color: $text-hint
+  font-size: 0.8rem
+
+// Shadow Mixins
+@mixin shadow-light
+  box-shadow: 0 2px 8px $shadow-light
+
+@mixin shadow-medium
+  box-shadow: 0 4px 16px $shadow-medium
+
+@mixin shadow-dark
+  box-shadow: 0 8px 32px $shadow-dark
+
+// Border Mixins
+@mixin border-light
+  border: 1px solid $border-light
+
+@mixin border-medium
+  border: 1px solid $border-medium
+
+@mixin border-dark
+  border: 1px solid $border-dark
+
+// Layout Mixins
+@mixin flex-center
+  display: flex
+  justify-content: center
+  align-items: center
+
+@mixin flex-between
+  display: flex
+  justify-content: space-between
+  align-items: center
+
+@mixin grid-responsive($min-width: 280px)
+  display: grid
+  grid-template-columns: repeat(auto-fill, minmax($min-width, 1fr))
+  gap: 20px
+
+// Animation Mixins
+@mixin smooth-transition($properties: all, $duration: 0.3s, $timing: ease)
+  transition: $properties $duration $timing
+
+@mixin hover-lift($distance: -4px)
+  &:hover
+    transform: translateY($distance)
+
+// Media Query Mixins
+@mixin mobile
+  @media (max-width: 768px)
+    @content
+
+@mixin tablet
+  @media (min-width: 769px) and (max-width: 1024px)
+    @content
+
+@mixin desktop
+  @media (min-width: 1025px)
+    @content
