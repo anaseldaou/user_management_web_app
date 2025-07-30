@@ -1,0 +1,84 @@
+<div class="user-list-container">
+
+  <!-- Users Grid -->
+  @if (users?.data?.length) {
+    <div class="users-grid">
+      @for (user of users.data; track user.id) {
+        <div class="user-card" (click)="goToUserByID(user.id)">
+          <div class="user-avatar">
+            <img [src]="user.avatar" [alt]="user.first_name + ' ' + user.last_name">
+          </div>
+          <div class="user-info">
+            <h3 class="user-name">{{ user.first_name }} {{ user.last_name }}</h3>
+            <p class="user-email">{{ user.email }}</p>
+            <span class="user-id">{{ 'USER_INFO.ID' | translate }}: {{ user.id }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- No Users Message -->
+  @if (!users?.data?.length) {
+    <div class="no-users">
+      <p>{{ 'USER_LIST.NO_USERS_FOUND' | translate }}</p>
+    </div>
+  }
+
+  <!-- Pagination -->
+  @if (users && users.total_pages > 1) {
+    <div class="pagination-container">
+      <div class="pagination">
+        <!-- Previous Button -->
+        <button 
+          mat-stroked-button
+          class="pagination-btn prev" 
+          [disabled]="users.page === 1"
+          (click)="onPageChange(users.page - 1)">
+          <mat-icon>chevron_left</mat-icon>
+          {{ 'USER_LIST.PREVIOUS' | translate }}
+        </button>
+
+        <!-- Page Numbers -->
+        @for (page of getPaginationPages(); track page) {
+          @if (page === users.page) {
+            <!-- Active Page -->
+            <button 
+              mat-flat-button
+              color="primary"
+              class="pagination-btn page-number active"
+              (click)="onPageChange(page)">
+              {{ page }}
+            </button>
+          } @else {
+            <!-- Inactive Page -->
+            <button 
+              mat-stroked-button
+              class="pagination-btn page-number"
+              (click)="onPageChange(page)">
+              {{ page }}
+            </button>
+          }
+        }
+
+        <!-- Next Button -->
+        <button 
+          mat-stroked-button
+          class="pagination-btn next" 
+          [disabled]="users.page === users.total_pages"
+          (click)="onPageChange(users.page + 1)">
+          {{ 'USER_LIST.NEXT' | translate }}
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+
+      <!-- Pagination Info -->
+      <div class="pagination-info">
+        <span>{{ 'USER_LIST.SHOWING' | translate }} {{ (users.page - 1) * users.per_page + 1 }} {{ 'USER_LIST.TO' | translate }} 
+          {{ Math.min(users.page * users.per_page, users.total) }} {{ 'USER_LIST.OF' | translate }} 
+          {{ users.total }} {{ 'USER_LIST.USERS' | translate }}
+        </span>
+      </div>
+    </div>
+  }
+</div>

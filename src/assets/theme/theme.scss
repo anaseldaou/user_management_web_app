@@ -1,0 +1,20 @@
+@use '@angular/material' as mat;
+@use '../abstract/pallettes.scss' as my-theme;
+// Define Azure & Blue theme using Angular 19 syntax
+html {
+    @include mat.theme((
+    color: (
+      theme-type: light,
+      primary: my-theme.$primary-palette
+    ),
+    typography: Roboto,
+    density: -4
+    ));
+}
+
+:root {
+    @include mat.sidenav-overrides((
+      container-shape: 0px,
+      container-background-color: var(--mat-sys-on-primary-container)
+    ))
+}
